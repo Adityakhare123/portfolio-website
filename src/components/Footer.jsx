@@ -1,85 +1,42 @@
-import React from 'react';
-import { portfolioData } from '../data/portfolioData';
+import { FiArrowUp } from "react-icons/fi";
+import { profile, socialIcons } from "../data/portfolioData";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* About */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Portfolio</h3>
-            <p className="text-gray-400">
-              Full Stack Developer crafting beautiful web experiences.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#home" className="hover:text-white transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="hover:text-white transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="hover:text-white transition-colors">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-white transition-colors">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Connect</h3>
-            <div className="flex gap-4">
-              <a
-                href={portfolioData.social.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                GitHub
-              </a>
-              <a
-                href={portfolioData.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                LinkedIn
-              </a>
-              <a
-                href={portfolioData.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                Twitter
-              </a>
-            </div>
-          </div>
+    <footer className="border-t border-white/10 px-5 py-8">
+      <div className="container-width flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+        <div>
+          <p className="font-black text-white">{profile.name}</p>
+          <p className="mt-1 text-sm text-slate-500">
+            © {new Date().getFullYear()} All rights reserved.
+          </p>
         </div>
 
-        <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
-          <p>
-            &copy; {currentYear} {portfolioData.name}. All rights reserved. | Built with
-            React & Tailwind CSS
-          </p>
+        <div className="flex items-center gap-3">
+          {socialIcons.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={item.label}
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:border-cyan-300/40 hover:text-cyan-200"
+              >
+                <Icon />
+              </a>
+            );
+          })}
+
+          <a
+            href="#home"
+            aria-label="Back to top"
+            className="grid h-10 w-10 place-items-center rounded-full bg-cyan-300 text-slate-950 transition hover:-translate-y-1"
+          >
+            <FiArrowUp />
+          </a>
         </div>
       </div>
     </footer>
