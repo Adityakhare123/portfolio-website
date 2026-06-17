@@ -5,22 +5,22 @@ import { profile } from "../data/portfolioData";
 const cards = [
   {
     icon: FiCpu,
-    title: "AI-powered systems",
+    title: "AI_SYSTEMS",
     text: "OCR workflows, computer vision projects, document automation, and ML-based solutions.",
   },
   {
     icon: FiDatabase,
-    title: "Data engineering",
+    title: "DATA_PIPELINES",
     text: "APIs, SQL, ETL pipelines, cleaning, transformation, and structured database loading.",
   },
   {
     icon: FiLayers,
-    title: "Modern web apps",
+    title: "WEB_APPS",
     text: "Responsive frontend experiences using React, Tailwind CSS, and interactive UI patterns.",
   },
   {
     icon: FiZap,
-    title: "Practical problem solving",
+    title: "PROBLEM_SOLVING",
     text: "Focused on real-world usability, clean logic, scalable structure, and business value.",
   },
 ];
@@ -30,55 +30,45 @@ const About = () => {
     <section id="about" className="section-padding">
       <div className="container-width">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto max-w-3xl text-center"
+          viewport={{ once: true }}
         >
-          <p className="text-sm font-bold uppercase tracking-[0.32em] text-cyan-200">About Me</p>
-          <h2 className="mt-4 text-4xl font-black tracking-tight text-white md:text-5xl">
-            A builder mindset for software, AI, and data.
+          <p className="command-label">ABOUT_ME</p>
+          <h2 className="mt-4 max-w-4xl text-4xl font-black uppercase leading-tight tracking-[-0.06em] md:text-6xl">
+            I build practical systems, not just pretty screens.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">{profile.about}</p>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">{profile.about}</p>
         </motion.div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
           {cards.map((card, index) => {
             const Icon = card.icon;
 
             return (
               <motion.div
                 key={card.title}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                whileHover={{ y: -8, scale: 1.01 }}
-                className="glass-card rounded-3xl p-7"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06 }}
+                whileHover={{ x: 8 }}
+                className="terminal-card p-6"
               >
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-cyan-300/10 text-xl text-cyan-200">
-                  <Icon />
+                <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                  <h3 className="font-black">{card.title}</h3>
+                  <Icon className="green-text text-xl" />
                 </div>
-                <h3 className="mt-5 text-xl font-black text-white">{card.title}</h3>
-                <p className="mt-3 leading-7 text-slate-400">{card.text}</p>
+                <p className="leading-7 text-zinc-400">{card.text}</p>
               </motion.div>
             );
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="glass-card mt-6 rounded-3xl p-7"
-        >
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-purple-200">
-            Currently Learning
-          </p>
-          <p className="mt-3 text-lg leading-8 text-slate-300">{profile.currentlyLearning}</p>
-        </motion.div>
+        <div className="terminal-card mt-4 p-6">
+          <p className="command-label">CURRENTLY_LEARNING</p>
+          <p className="mt-3 leading-8 text-zinc-400">{profile.currentlyLearning}</p>
+        </div>
       </div>
     </section>
   );

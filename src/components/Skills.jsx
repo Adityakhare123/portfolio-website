@@ -5,53 +5,40 @@ const Skills = () => {
   return (
     <section id="skills" className="section-padding">
       <div className="container-width">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7 }}
-          className="max-w-3xl"
-        >
-          <p className="text-sm font-bold uppercase tracking-[0.32em] text-cyan-200">Skills</p>
-          <h2 className="mt-4 text-4xl font-black tracking-tight text-white md:text-5xl">
-            Technical stack with practical project experience.
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">
-            A balanced mix of programming, AI/ML, data engineering, frontend development, and tools.
-          </p>
-        </motion.div>
+        <p className="command-label">SKILL_MATRIX</p>
+        <h2 className="mt-4 max-w-4xl text-4xl font-black uppercase leading-tight tracking-[-0.06em] md:text-6xl">
+          Tools I use to ship working products.
+        </h2>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+        <div className="mt-12 grid gap-4 lg:grid-cols-2">
           {skills.map((group, index) => {
             const GroupIcon = group.icon;
 
             return (
               <motion.div
                 key={group.category}
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                className="glass-card rounded-3xl p-6"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="terminal-card"
               >
-                <div className="flex items-center gap-3">
-                  <div className="grid h-11 w-11 place-items-center rounded-2xl bg-purple-400/10 text-xl text-purple-200">
-                    <GroupIcon />
-                  </div>
-                  <h3 className="text-xl font-black text-white">{group.category}</h3>
+                <div className="terminal-header flex items-center justify-between px-5 py-4">
+                  <h3 className="font-black uppercase">{group.category}</h3>
+                  <GroupIcon className="green-text" />
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-2">
                   {group.items.map((skill) => {
                     const Icon = skill.icon;
 
                     return (
                       <motion.div
                         key={skill.name}
-                        whileHover={{ scale: 1.04, y: -4 }}
-                        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/30 hover:bg-cyan-300/10"
+                        whileHover={{ backgroundColor: "rgba(156,255,87,0.08)" }}
+                        className="flex items-center gap-3 border-b border-r border-white/10 p-4 text-sm font-bold text-zinc-300"
                       >
-                        <Icon className="text-lg text-cyan-200" />
+                        <Icon className="green-text" />
                         {skill.name}
                       </motion.div>
                     );

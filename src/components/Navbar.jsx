@@ -8,57 +8,51 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 16);
     handleScroll();
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const closeMenu = () => setOpen(false);
-
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-slate-950/70 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
+      initial={{ y: -70 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 ${
+        scrolled ? "bg-[#050505]/90 backdrop-blur-xl" : "bg-[#050505]/70 backdrop-blur-md"
       }`}
     >
       <nav className="container-width flex items-center justify-between px-5 py-4">
-        <a href="#home" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl border border-cyan-300/30 bg-cyan-300/10 text-sm font-black text-cyan-200 shadow-lg shadow-cyan-500/10">
-            {profile.logo}
-          </span>
-          <span className="text-sm font-semibold tracking-wide text-white/90 group-hover:text-cyan-200">
-            {profile.name}
-          </span>
+        <a href="#home" className="flex items-center gap-3">
+          <span className="green-text text-xl">⌘</span>
+          <span className="font-black tracking-tight">{profile.name}.exe</span>
         </a>
 
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-slate-300 transition hover:text-cyan-200"
+              className="text-sm font-bold text-zinc-400 transition hover:text-[#9cff57]"
             >
-              {link.label}
+              _{link.label}
             </a>
           ))}
 
           <a
             href={profile.resumePath}
             download
-            className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20 hover:shadow-lg hover:shadow-cyan-500/20"
+            className="btn-primary px-5 py-2 text-sm"
           >
-            Resume
+            RESUME ↗
           </a>
         </div>
 
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-xl text-white lg:hidden"
+          className="border border-white/15 bg-white/5 p-2 text-xl lg:hidden"
           aria-label="Toggle menu"
         >
           {open ? <FiX /> : <FiMenu />}
@@ -68,31 +62,29 @@ const Navbar = () => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl lg:hidden"
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            className="overflow-hidden border-t border-white/10 bg-[#050505]"
           >
-            <div className="container-width flex flex-col gap-2 px-5 py-5">
+            <div className="container-width grid gap-2 px-5 py-5">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={closeMenu}
-                  className="rounded-xl px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 hover:text-cyan-200"
+                  onClick={() => setOpen(false)}
+                  className="border border-white/10 px-4 py-3 text-sm font-bold text-zinc-300"
                 >
-                  {link.label}
+                  _{link.label}
                 </a>
               ))}
 
               <a
                 href={profile.resumePath}
                 download
-                onClick={closeMenu}
-                className="mt-2 rounded-xl bg-cyan-300 px-4 py-3 text-center text-sm font-bold text-slate-950"
+                className="btn-primary mt-2 px-4 py-3 text-center text-sm"
               >
-                Download Resume
+                DOWNLOAD_RESUME
               </a>
             </div>
           </motion.div>

@@ -1,129 +1,161 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import { FiSend } from "react-icons/fi";
+import { profile, socialIcons } from "../data/portfolioData";
+
+const initialForm = {
+  name: "",
+  email: "",
+  message: "",
+};
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState("");
 
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Here you would typically send the form data to a backend service
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setSubmitted(false), 3000);
+  const submitForm = async (event) => {
+    event.preventDefault();
+    setStatus("SENDING...");
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (serviceId && templateId && publicKey) {
+      try {
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: form.name,
+            from_email: form.email,
+            message: form.message,
+            to_email: profile.email,
+          },
+          publicKey
+        );
+
+        setStatus("MESSAGE_SENT");
+        setForm(initialForm);
+      } catch {
+        window.location.href = `mailto:${profile.email}?subject=Portfolio Contact from ${encodeURIComponent(
+          form.name
+        )}&body=${encodeURIComponent(`${form.message}\n\nFrom: ${form.email}`)}`;
+      }
+
+      return;
+    }
+
+    window.location.href = `mailto:${profile.email}?subject=Portfolio Contact from ${encodeURIComponent(
+      form.name
+    )}&body=${encodeURIComponent(`${form.message}\n\nFrom: ${form.email}`)}`;
   };
 
   return (
-    <section id="contact" className="py-16 bg-gradient-to-r from-primary to-secondary text-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center">Get In Touch</h2>
-        <div className="max-w-2xl mx-auto">
-          <form onSubmit={handleSubmit} className="bg-white text-gray-800 p-8 rounded-lg shadow-xl">
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Your Name"
-              />
-            </div>
+    <section id="contact" className="section-padding">
+      <div className="container-width grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <p className="command-label">CONTACT_CHANNEL</p>
+          <h2 className="mt-4 text-4xl font-black uppercase leading-tight tracking-[-0.06em] md:text-6xl">
+            Start a conversation.
+          </h2>
+          <p className="mt-6 leading-8 text-zinc-400">
+            Reach out for developer roles, data projects, AI/ML ideas, collaborations, or freelance-style work.
+          </p>
 
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-semibold mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="your@email.com"
-              />
-            </div>
+          <div className="mt-8 grid gap-3">
+            <a href={`mailto:${profile.email}`} className="terminal-card p-4 text-zinc-300 hover:text-[#9cff57]">
+              email: {profile.email}
+            </a>
 
-            <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows="5"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Your message..."
-              ></textarea>
-            </div>
+            <div className="flex flex-wrap gap-3">
+              {socialIcons.map((item) => {
+                const Icon = item.icon;
 
-            {submitted && (
-              <div className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg">
-                ✓ Thank you! Your message has been sent.
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Send Message
-            </button>
-          </form>
-
-          <div className="mt-12 text-center">
-            <p className="mb-6">Or connect with me on social media:</p>
-            <div className="flex justify-center gap-6">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
-                Twitter
-              </a>
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-secondary inline-flex items-center gap-2 px-4 py-3 text-sm"
+                  >
+                    <Icon />
+                    {item.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
-        </div>
+        </motion.div>
+
+        <motion.form
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          onSubmit={submitForm}
+          className="terminal-card"
+        >
+          <div className="terminal-header px-5 py-3">
+            <p className="font-black">message_form.exe</p>
+          </div>
+
+          <div className="grid gap-5 p-5">
+            <label className="grid gap-2">
+              <span className="text-sm font-bold text-zinc-400">NAME</span>
+              <input
+                required
+                name="name"
+                value={form.name}
+                onChange={updateField}
+                placeholder="Enter your name"
+                className="border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#9cff57]"
+              />
+            </label>
+
+            <label className="grid gap-2">
+              <span className="text-sm font-bold text-zinc-400">EMAIL</span>
+              <input
+                required
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={updateField}
+                placeholder="Enter your email"
+                className="border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#9cff57]"
+              />
+            </label>
+
+            <label className="grid gap-2">
+              <span className="text-sm font-bold text-zinc-400">MESSAGE</span>
+              <textarea
+                required
+                name="message"
+                value={form.message}
+                onChange={updateField}
+                rows="6"
+                placeholder="Write your message..."
+                className="resize-none border border-white/10 bg-black px-4 py-3 text-white outline-none focus:border-[#9cff57]"
+              />
+            </label>
+
+            <button type="submit" className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3">
+              SEND_MESSAGE <FiSend />
+            </button>
+
+            {status && <p className="green-text text-sm">{status}</p>}
+          </div>
+        </motion.form>
       </div>
     </section>
   );

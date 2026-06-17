@@ -9,15 +9,37 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden bg-[#050505]">
       <div className="noise-overlay" />
-
-      <div className="fixed left-[-120px] top-[120px] z-0 h-[340px] w-[340px] rounded-full bg-cyan-400/20 blur-[120px]" />
-      <div className="fixed right-[-140px] top-[280px] z-0 h-[380px] w-[380px] rounded-full bg-purple-500/20 blur-[130px]" />
+      <div className="scanline" />
 
       <div className="relative z-10">
         <Navbar />
         <Hero />
+
+        <div className="marquee">
+          <div className="marquee-track">
+            <span>PYTHON</span>
+            <span>DATA ENGINEERING</span>
+            <span>AI / ML</span>
+            <span>OCR</span>
+            <span>OPENCV</span>
+            <span>REACT</span>
+            <span>SQL</span>
+            <span>APIS</span>
+          </div>
+          <div className="marquee-track">
+            <span>PYTHON</span>
+            <span>DATA ENGINEERING</span>
+            <span>AI / ML</span>
+            <span>OCR</span>
+            <span>OPENCV</span>
+            <span>REACT</span>
+            <span>SQL</span>
+            <span>APIS</span>
+          </div>
+        </div>
+
         <About />
         <Skills />
         <Projects />

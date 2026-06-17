@@ -1,14 +1,16 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap");
 
 :root {
   color-scheme: dark;
-  --bg: #050816;
-  --bg-soft: #0b1024;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --cyan: #22d3ee;
-  --blue: #6366f1;
-  --purple: #a855f7;
+  --bg: #050505;
+  --panel: #0a0a0a;
+  --panel-soft: #101010;
+  --line: rgba(255, 255, 255, 0.14);
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --green: #9cff57;
+  --green-soft: rgba(156, 255, 87, 0.12);
 }
 
 * {
@@ -23,11 +25,12 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.16), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.14), transparent 30%),
-    linear-gradient(180deg, #050816 0%, #070b1f 45%, #030712 100%);
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+    #050505;
+  background-size: 32px 32px;
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "JetBrains Mono", monospace;
   overflow-x: hidden;
 }
 
@@ -43,48 +46,140 @@ textarea {
 }
 
 .section-padding {
-  padding: 96px 24px;
+  padding: 96px 22px;
 }
 
 .container-width {
-  width: min(1120px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
 }
 
-.glass-card {
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.42));
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(18px);
+.terminal-card {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)),
+    var(--panel);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.7), 0 28px 80px rgba(0,0,0,0.55);
 }
 
-.gradient-text {
-  background: linear-gradient(90deg, #f8fafc, #67e8f9, #a78bfa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.terminal-header {
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.035);
+}
+
+.green-text {
+  color: var(--green);
+}
+
+.scanline {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0.06;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.22) 4px
+  );
 }
 
 .noise-overlay {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  opacity: 0.045;
-  z-index: 1;
+  z-index: 90;
+  opacity: 0.05;
   background-image:
-    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: radial-gradient(circle at center, black, transparent 85%);
+    radial-gradient(circle at center, rgba(255,255,255,0.4) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  border-block: 1px solid var(--line);
+  background: #080808;
+}
+
+.marquee-track {
+  display: flex;
+  min-width: 100%;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee span {
+  padding: 14px 22px;
+  color: var(--green);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.command-label {
+  color: var(--green);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.big-title {
+  font-size: clamp(46px, 8vw, 112px);
+  line-height: 0.92;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #050505;
+  font-weight: 900;
+  transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 32px rgba(156, 255, 87, 0.24);
+}
+
+.btn-secondary {
+  border: 1px solid var(--line);
+  background: #080808;
+  color: var(--text);
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-3px);
+  border-color: var(--green);
+  color: var(--green);
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.28);
-  color: white;
+  background: var(--green);
+  color: #050505;
 }
 
 @media (max-width: 768px) {
   .section-padding {
-    padding: 76px 18px;
+    padding: 76px 16px;
+  }
+
+  .big-title {
+    letter-spacing: -0.06em;
   }
 }

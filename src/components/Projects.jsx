@@ -6,78 +6,75 @@ const Projects = () => {
   return (
     <section id="projects" className="section-padding">
       <div className="container-width">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <p className="text-sm font-bold uppercase tracking-[0.32em] text-cyan-200">Projects</p>
-          <h2 className="mt-4 text-4xl font-black tracking-tight text-white md:text-5xl">
-            Real-world projects that show execution.
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">
-            These projects highlight AI, OCR, computer vision, data engineering, and frontend development.
-          </p>
-        </motion.div>
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="command-label">PROJECT_DIRECTORY</p>
+            <h2 className="mt-4 max-w-4xl text-4xl font-black uppercase leading-tight tracking-[-0.06em] md:text-6xl">
+              Selected builds.
+            </h2>
+          </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
+          <p className="max-w-sm text-sm leading-7 text-zinc-500">
+            Real projects across AI, OCR, computer vision, data pipelines, and frontend development.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4">
           {projects.map((project, index) => (
             <motion.article
               key={project.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: index * 0.08 }}
-              whileHover={{ y: -10 }}
-              className={`glass-card group relative overflow-hidden rounded-3xl p-7 ${
-                project.featured ? "md:min-h-[340px]" : ""
-              }`}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.06 }}
+              whileHover={{ x: 8 }}
+              className="terminal-card grid gap-6 p-6 md:grid-cols-[0.18fr_1fr_0.28fr]"
             >
-              <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-cyan-300/10 blur-3xl transition group-hover:bg-cyan-300/20" />
-              <div className="absolute -bottom-16 -left-16 h-44 w-44 rounded-full bg-purple-500/10 blur-3xl transition group-hover:bg-purple-500/20" />
+              <div>
+                <p className="green-text text-3xl font-black">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <p className="mt-2 text-xs uppercase text-zinc-600">
+                  {project.featured ? "FEATURED" : "BUILD"}
+                </p>
+              </div>
 
-              <div className="relative z-10">
-                <div className="mb-5 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold uppercase tracking-widest text-cyan-100">
-                  {project.featured ? "Featured" : "Project"}
-                </div>
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-[-0.04em]">
+                  {project.title}
+                </h3>
+                <p className="mt-4 leading-7 text-zinc-400">{project.description}</p>
 
-                <h3 className="text-2xl font-black text-white">{project.title}</h3>
-                <p className="mt-4 leading-7 text-slate-300">{project.description}</p>
-
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap gap-2">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100"
+                      className="border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-zinc-300"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
+              </div>
 
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/40 hover:text-cyan-200"
-                  >
-                    <FiGithub />
-                    GitHub
-                  </a>
+              <div className="flex flex-col gap-3 md:items-end">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-secondary inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
+                >
+                  <FiGithub /> CODE
+                </a>
 
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-cyan-200"
-                  >
-                    <FiExternalLink />
-                    Live Demo
-                  </a>
-                </div>
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-primary inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
+                >
+                  <FiExternalLink /> LIVE
+                </a>
               </div>
             </motion.article>
           ))}
