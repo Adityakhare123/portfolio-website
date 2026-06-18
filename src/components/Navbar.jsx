@@ -15,19 +15,28 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const closeMenu = () => setOpen(false);
+
   return (
     <motion.header
-      initial={{ y: -70 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 ${
-        scrolled ? "bg-[#050505]/90 backdrop-blur-xl" : "bg-[#050505]/70 backdrop-blur-md"
+      initial={{ y: -70, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#050505]/92 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+          : "bg-[#050505]/72 backdrop-blur-md"
       }`}
     >
       <nav className="container-width flex items-center justify-between px-5 py-4">
-        <a href="#home" className="flex items-center gap-3">
-          <span className="green-text text-xl">⌘</span>
-          <span className="font-black tracking-tight">{profile.name}.exe</span>
+        <a href="#home" className="hover-target group flex items-center gap-3">
+          <span className="green-text text-xl transition duration-300 group-hover:rotate-12 group-hover:scale-110">
+            ⌘
+          </span>
+
+          <span className="font-black tracking-tight text-white transition duration-300 group-hover:text-[#9cff57] group-hover:[text-shadow:0_0_18px_rgba(156,255,87,0.45)]">
+            {profile.name}.exe
+          </span>
         </a>
 
         <div className="hidden items-center gap-7 lg:flex">
@@ -35,7 +44,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-bold text-zinc-400 transition hover:text-[#9cff57]"
+              className="nav-link-terminal hover-target text-sm font-bold text-zinc-400 transition"
             >
               _{link.label}
             </a>
@@ -44,7 +53,7 @@ const Navbar = () => {
           <a
             href={profile.resumePath}
             download
-            className="btn-primary px-5 py-2 text-sm"
+            className="btn-primary hover-target px-5 py-2 text-sm"
           >
             RESUME ↗
           </a>
@@ -52,7 +61,7 @@ const Navbar = () => {
 
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="border border-white/15 bg-white/5 p-2 text-xl lg:hidden"
+          className="hover-target border border-white/15 bg-white/5 p-2 text-xl transition hover:border-[#9cff57] hover:text-[#9cff57] lg:hidden"
           aria-label="Toggle menu"
         >
           {open ? <FiX /> : <FiMenu />}
@@ -62,30 +71,38 @@ const Navbar = () => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "auto" }}
-            exit={{ height: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden border-t border-white/10 bg-[#050505]"
           >
             <div className="container-width grid gap-2 px-5 py-5">
-              {navLinks.map((link) => (
-                <a
+              {navLinks.map((link, index) => (
+                <motion.a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="border border-white/10 px-4 py-3 text-sm font-bold text-zinc-300"
+                  onClick={closeMenu}
+                  initial={{ opacity: 0, x: -14 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.04 }}
+                  className="hover-target border border-white/10 px-4 py-3 text-sm font-bold text-zinc-300 transition hover:border-[#9cff57] hover:bg-[#9cff57]/10 hover:text-[#9cff57]"
                 >
                   _{link.label}
-                </a>
+                </motion.a>
               ))}
 
-              <a
+              <motion.a
                 href={profile.resumePath}
                 download
-                className="btn-primary mt-2 px-4 py-3 text-center text-sm"
+                onClick={closeMenu}
+                initial={{ opacity: 0, x: -14 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.04 }}
+                className="btn-primary hover-target mt-2 px-4 py-3 text-center text-sm"
               >
                 DOWNLOAD_RESUME
-              </a>
+              </motion.a>
             </div>
           </motion.div>
         )}

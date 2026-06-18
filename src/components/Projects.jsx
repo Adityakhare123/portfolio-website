@@ -3,6 +3,14 @@ import { FiExternalLink, FiGithub } from "react-icons/fi";
 import { projects } from "../data/portfolioData";
 
 const Projects = () => {
+  const handleMouseMove = (event) => {
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+
+    card.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+    card.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+  };
+
   return (
     <section id="projects" className="section-padding">
       <div className="container-width">
@@ -27,10 +35,10 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06 }}
-              whileHover={{ x: 8 }}
-              className="terminal-card grid gap-6 p-6 md:grid-cols-[0.18fr_1fr_0.28fr]"
+              onMouseMove={handleMouseMove}
+              className="terminal-card project-hover hover-target grid gap-6 p-6 md:grid-cols-[0.18fr_1fr_0.28fr]"
             >
-              <div>
+              <div className="relative z-10">
                 <p className="green-text text-3xl font-black">
                   {String(index + 1).padStart(2, "0")}
                 </p>
@@ -39,7 +47,7 @@ const Projects = () => {
                 </p>
               </div>
 
-              <div>
+              <div className="relative z-10">
                 <h3 className="text-2xl font-black uppercase tracking-[-0.04em]">
                   {project.title}
                 </h3>
@@ -57,12 +65,12 @@ const Projects = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 md:items-end">
+              <div className="relative z-10 flex flex-col gap-3 md:items-end">
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-secondary inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
+                  className="btn-secondary hover-target inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
                 >
                   <FiGithub /> CODE
                 </a>
@@ -71,7 +79,7 @@ const Projects = () => {
                   href={project.live}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-primary inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
+                  className="btn-primary hover-target inline-flex w-full items-center justify-center gap-2 px-4 py-3 text-sm md:w-auto"
                 >
                   <FiExternalLink /> LIVE
                 </a>

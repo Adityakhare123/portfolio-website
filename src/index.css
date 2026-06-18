@@ -7,6 +7,7 @@
   --panel: #0a0a0a;
   --panel-soft: #101010;
   --line: rgba(255, 255, 255, 0.14);
+  --line-soft: rgba(255, 255, 255, 0.08);
   --text: #f4f4f5;
   --muted: #a1a1aa;
   --green: #9cff57;
@@ -18,20 +19,26 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   background:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
     #050505;
   background-size: 32px 32px;
   color: var(--text);
   font-family: "JetBrains Mono", monospace;
   overflow-x: hidden;
+  cursor: none;
+}
+
+a,
+button {
+  cursor: none;
 }
 
 a {
@@ -54,77 +61,27 @@ textarea {
   margin: 0 auto;
 }
 
+/* ============================= */
+/* BASE TERMINAL UI */
+/* ============================= */
+
 .terminal-card {
   border: 1px solid var(--line);
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
     var(--panel);
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.7), 0 28px 80px rgba(0,0,0,0.55);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.7),
+    0 28px 80px rgba(0, 0, 0, 0.55);
 }
 
 .terminal-header {
   border-bottom: 1px solid var(--line);
-  background: rgba(255,255,255,0.035);
+  background: rgba(255, 255, 255, 0.035);
 }
 
 .green-text {
   color: var(--green);
-}
-
-.scanline {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  opacity: 0.06;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(255,255,255,0.22) 4px
-  );
-}
-
-.noise-overlay {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  opacity: 0.05;
-  background-image:
-    radial-gradient(circle at center, rgba(255,255,255,0.4) 1px, transparent 1px);
-  background-size: 4px 4px;
-}
-
-.marquee {
-  display: flex;
-  overflow: hidden;
-  white-space: nowrap;
-  border-block: 1px solid var(--line);
-  background: #080808;
-}
-
-.marquee-track {
-  display: flex;
-  min-width: 100%;
-  animation: marquee 24s linear infinite;
-}
-
-.marquee span {
-  padding: 14px 22px;
-  color: var(--green);
-  font-size: 13px;
-  text-transform: uppercase;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
 }
 
 .command-label {
@@ -142,44 +99,394 @@ textarea {
   text-transform: uppercase;
 }
 
+/* ============================= */
+/* BACKGROUND EFFECTS */
+/* ============================= */
+
+.scanline {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0.045;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(255, 255, 255, 0.18) 4px
+  );
+}
+
+.noise-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0.04;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.34) 1px,
+    transparent 1px
+  );
+  background-size: 4px 4px;
+}
+
+/* ============================= */
+/* MARQUEE - CLEAN VERSION */
+/* ============================= */
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  border-block: 1px solid var(--line-soft);
+  background: rgba(5, 5, 5, 0.72);
+}
+
+.marquee-track {
+  display: flex;
+  min-width: 100%;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee span {
+  padding: 10px 28px;
+  color: rgba(156, 255, 87, 0.78);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
 .btn-primary {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--green);
   background: var(--green);
   color: #050505;
   font-weight: 900;
-  transition: 0.2s ease;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 32px rgba(156, 255, 87, 0.24);
+  box-shadow: 0 0 28px rgba(156, 255, 87, 0.22);
 }
 
 .btn-secondary {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--line);
   background: #080808;
   color: var(--text);
   font-weight: 800;
-  transition: 0.2s ease;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .btn-secondary:hover {
   transform: translateY(-3px);
   border-color: var(--green);
   color: var(--green);
+  box-shadow: 0 0 22px rgba(156, 255, 87, 0.1);
 }
+
+.btn-primary::before,
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover::before,
+.btn-secondary:hover::before {
+  transform: translateX(120%);
+}
+
+/* ============================= */
+/* CUSTOM CURSOR - REDUCED */
+/* ============================= */
+
+.custom-cursor-dot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--green);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9998;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(156, 255, 87, 0.45);
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+/* ============================= */
+/* NAVBAR HOVER EFFECT */
+/* ============================= */
+
+.nav-link-terminal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+  overflow: visible;
+}
+
+.nav-link-terminal::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 0%;
+  height: 1px;
+  background: var(--green);
+  transition: width 0.28s ease;
+}
+
+.nav-link-terminal::after {
+  content: ">";
+  position: absolute;
+  left: -12px;
+  color: var(--green);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.nav-link-terminal:hover {
+  color: var(--green);
+  text-shadow: 0 0 16px rgba(156, 255, 87, 0.38);
+}
+
+.nav-link-terminal:hover::before {
+  width: 100%;
+}
+
+.nav-link-terminal:hover::after {
+  opacity: 1;
+  transform: translateX(-10px);
+}
+
+/* ============================= */
+/* ABOUT / SKILLS CARD HOVER */
+/* ============================= */
+
+.terminal-hover {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    background 0.28s ease;
+}
+
+.terminal-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(156, 255, 87, 0.055) 45%,
+      transparent 70%
+    );
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+
+.terminal-hover::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.terminal-hover:hover {
+  transform: translateY(-5px);
+  border-color: rgba(156, 255, 87, 0.48);
+  box-shadow:
+    0 0 0 1px rgba(156, 255, 87, 0.1),
+    0 22px 70px rgba(0, 0, 0, 0.62),
+    0 0 26px rgba(156, 255, 87, 0.065);
+}
+
+.terminal-hover:hover::before {
+  transform: translateX(120%);
+}
+
+.terminal-hover:hover::after {
+  opacity: 1;
+}
+
+/* ============================= */
+/* PROJECT CARD HOVER */
+/* ============================= */
+
+.project-hover {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.project-hover::before {
+  content: "";
+  position: absolute;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(
+    circle,
+    rgba(156, 255, 87, 0.105),
+    transparent 65%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.project-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-left: 2px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.25s ease;
+}
+
+.project-hover:hover {
+  transform: translateX(6px) translateY(-3px);
+  border-color: rgba(156, 255, 87, 0.46);
+  box-shadow:
+    0 0 0 1px rgba(156, 255, 87, 0.08),
+    0 24px 72px rgba(0, 0, 0, 0.68),
+    0 0 22px rgba(156, 255, 87, 0.06);
+}
+
+.project-hover:hover::before {
+  opacity: 1;
+}
+
+.project-hover:hover::after {
+  border-left-color: var(--green);
+}
+
+/* ============================= */
+/* INPUT HOVER / FOCUS */
+/* ============================= */
+
+input,
+textarea {
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(156, 255, 87, 0.08);
+}
+
+/* ============================= */
+/* SELECTION */
+/* ============================= */
 
 ::selection {
   background: var(--green);
   color: #050505;
 }
 
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
 @media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button {
+    cursor: pointer;
+  }
+
   .section-padding {
     padding: 76px 16px;
   }
 
   .big-title {
     letter-spacing: -0.06em;
+  }
+
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+
+  .project-hover:hover,
+  .terminal-hover:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
   }
 }

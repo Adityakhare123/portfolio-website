@@ -32,13 +32,18 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <p className="command-label">ABOUT_ME</p>
+
           <h2 className="mt-4 max-w-4xl text-4xl font-black uppercase leading-tight tracking-[-0.06em] md:text-6xl">
             I build practical systems, not just pretty screens.
           </h2>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">{profile.about}</p>
+
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-400">
+            {profile.about}
+          </p>
         </motion.div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-2">
@@ -50,25 +55,45 @@ const About = () => {
                 key={card.title}
                 initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
-                whileHover={{ x: 8 }}
-                className="terminal-card p-6"
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.55,
+                  delay: index * 0.06,
+                  ease: "easeOut",
+                }}
+                className="terminal-card terminal-hover hover-target group p-6"
               >
-                <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
-                  <h3 className="font-black">{card.title}</h3>
-                  <Icon className="green-text text-xl" />
+                <div className="relative z-10 mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                  <h3 className="font-black transition duration-300 group-hover:text-[#9cff57]">
+                    {card.title}
+                  </h3>
+
+                  <Icon className="green-text text-xl transition duration-300 group-hover:scale-125 group-hover:drop-shadow-[0_0_12px_rgba(156,255,87,0.7)]" />
                 </div>
-                <p className="leading-7 text-zinc-400">{card.text}</p>
+
+                <p className="relative z-10 leading-7 text-zinc-400 transition duration-300 group-hover:text-zinc-300">
+                  {card.text}
+                </p>
               </motion.div>
             );
           })}
         </div>
 
-        <div className="terminal-card mt-4 p-6">
-          <p className="command-label">CURRENTLY_LEARNING</p>
-          <p className="mt-3 leading-8 text-zinc-400">{profile.currentlyLearning}</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
+          className="terminal-card terminal-hover hover-target group mt-4 p-6"
+        >
+          <div className="relative z-10">
+            <p className="command-label">CURRENTLY_LEARNING</p>
+
+            <p className="mt-3 leading-8 text-zinc-400 transition duration-300 group-hover:text-zinc-300">
+              {profile.currentlyLearning}
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

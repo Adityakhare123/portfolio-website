@@ -6,10 +6,15 @@ import Projects from "./components/Projects";
 import Experience from "./components/Experience";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import CustomCursor from "./components/CustomCursor";
+import SmoothScroll from "./components/SmoothScroll";
 
 function App() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#050505]">
+      <SmoothScroll />
+      <CustomCursor />
+
       <div className="noise-overlay" />
       <div className="scanline" />
 
